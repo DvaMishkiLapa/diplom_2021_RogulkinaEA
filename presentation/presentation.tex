@@ -1,0 +1,434 @@
+\documentclass[10pt, pdf, hyperref={unicode}]{beamer}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{amssymb, amsfonts, amsmath, amsthm, microtype, pdfpages}
+
+\usetheme{Madrid}
+\usecolortheme{beaver}
+
+\title{<<Об одной задаче оптимизации для математической модели дохода фирмы>>}
+\date{25.06.2021}
+\author{Рогулькина Елена Александровна\\
+    \vspace{0.7cm}
+    Научный руководитель: Каменский Михаил Игоревич\\
+    \vspace{0.7cm}
+}
+
+
+\setbeamertemplate{frametitle}[default][center]
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[page number]
+\setbeamertemplate{caption}[numbered]
+
+\newtheorem{lem}{\hspace{5mm} Лемма}
+
+
+\begin{document}
+
+    \begin{frame} % титульный лист
+        \titlepage
+        \begin{center}
+            Магистерская работа\\
+            Направление 02.04.01 Математика и компьютерные науки\\
+            Профиль <<Математическое и компьютерное моделирование>>\\
+        \end{center}
+    \end{frame}
+
+
+    \begin{frame}
+        \frametitle{Введение}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Анализ истории экономики показывает, что в спокойные периоды состояния общества преобладают методы,
+                носящие равномерный характер, тогда как в более беспокойные периоды предпочтение отдается динамическим подходам,
+                требующим новых математических методов и понятий.
+                \newline
+                Например, при оценке стоимости нематериальных активов (НМА) интеллектуальной собственности (ИС) мы имеем дело с фундаментальным
+                противоречием между принципом бухгалтерского учета и свойствами экономики знаний
+                \newline\newline
+                Настоящая квалификационная работа посвящена применению нелинейного осреднения
+                В.П. Маслова и решению некоторых задач оптимизации в экономических процессах.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Производственная функция}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                {\it Производственная функция} одной независимой переменной $x$
+                \begin{equation}\label{f11}
+                y=f(x)
+                \end{equation}
+                --- это функция, у которой $x$ принимает значения
+                объемов {\it затрагиваемого} или {\it используемого ресурса}
+                (фактора производства), а $y$ --- значения объемов {\it выпускаемой
+                продукции}
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Производственная функция}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Типичным представлением широкого класса однофакторных ПФ является
+                степенная функция
+                \begin{equation}\label{f12}
+                y=f(x)=ax^\beta,
+                \end{equation}
+                где $a>0$, $x\ge0$,$0<\beta<1$.
+
+                Очевидно. что эта функция обладает следующими свойствами
+                $$f(x)\ge0,\hspace{10mm}\frac{df}{dx}>0,\hspace{10mm}\frac{d^2}{dx^2}<0,$$
+                из которых следует, что с ростом величины затраченного ресурса $x$
+                растет и объем выпуска $y$, однако, при этом, каждая дополнительная
+                единица ресурса дает все меньший прирост объема у выпускаемой
+                продукции.
+
+                Это обстоятельство отражает фундаментальное положение {\it
+                экономической теории}, называемое {\it законом убывающей
+                эффективности}.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Производственная функция}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Формально ПФ записывается следующим образом:
+                \begin{equation}\label{f13}
+                F=(x_1,\dots,x_n),
+                \end{equation}
+                где $F$ -- объем выпуска, $x_i$ -- объем $i$ -- го ресурса.
+                Обычно требуется, чтобы она обладала всеми или
+                хотя бы некоторыми из следующих свойств:
+
+                1) $F(0,\dots,0)=0$, т.е. выпуск невозможен при отсутствии ресурсов;
+
+                2) Если $x'_i>x_i$, $i=1,\dots,n$, то
+                $F(x_1,\dots,x_n')>F(x_1,\dots,x_n)$, т.е. при увеличении затрат
+                всех ресурсов выпуск растет;
+
+                3) $\frac{\partial F}{\partial x_i}\ge0$, $i=1,\dots,n$, т.е. с
+                увеличением затрат любого из ресурсов, при неизменном количестве
+                остальных, выпуск не уменьшается.
+
+                4) $\frac{\partial^2 F}{\partial x_i^2}\le0$, $i=1,\dots,n$, т.е. с
+                увеличением затрат любого из ресурсов, при неизменном количестве
+                остальных, эффективность вовлечения в производство дополнительной
+                его единицы не возрастает (принцип убывающей отдачи последовательных
+                вложений);
+
+                5) $\frac{\partial^2 F}{\partial x_i\partial x_j}\le0$,
+                $i=1,\dots,n$, $j=1,\dots,n$, т.е. эффективность затрат любого из
+                ресурсов, при увеличении затрат какого-либо другого ресурса и
+                неизменном количестве остальных, не снижается;
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Производственная функция}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                В литературе предложено множество конкретных ПФ. Чаще всего среди
+                них используются следующие:
+
+                1) {\bf линейная} $Y=a_1x_1+\dots+a_nx_n$;
+
+                2) {\bf леонтьевская}
+                $Y=\min\left(\frac{x_1}{a_1}+\dots+\frac{x_n}{a_n}\right)$;
+
+                3) {\bf Кобба--Дугласа} $Y=Ax_1^{a_1}\dots x_n^{a_n}$;
+
+                4) с постоянной эластичностью замещения, часто называется {\bf
+                ПЭЗ--}, или {\bf CES-- функцией} (от англ. constant elasticity of
+                substitution). В простейшем варианте эта функция имеет вид:
+                $$Y=A[a_1x_1^{-\rho}+\dots+a_nx_n^{-\rho}]^{-\lambda/\rho}.$$
+
+                Наиболее популярной и в теоретических и в прикладных исследованиях
+                является функция Кобба"=Дугласа.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Цель работы}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                В связи с этим, в данной работе, рассматриваются новые семейства производственный функций,
+                которые здесь называются производственными функциями академика В.П. Маслова и которые,
+                сохраняя многие достоинства выше приведенных производственных функций, обладают своими уникальными свойствами.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Производственная функция}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Академик В.П. Маслов, при создании <<квантовой экономики>>, получил нелинейное среднее, которое в случае двух величин $a$ и $b$, имеет вид
+                \begin{equation}\label{f211}
+                M_\beta(a,b)=\frac1{\chi\beta}\ln\frac{(e^{\chi\beta a}+e^{\chi\beta b})}2,
+                \end{equation}
+                где $\chi=\pm1$, $\beta>0$.
+
+                Основной особенностью среднего (\ref{f211}) является его <<наибольшая близость>> к линейному, в том смысле, что оно удовлетворяет условию
+                \begin{equation}\label{f212}
+                M_\beta(a+\alpha,b+\alpha)=M(a,b)+\alpha.
+                \end{equation}
+
+                Это условие обеспечивает однозначный выбор функции в семействе колмогоровских средних
+                \begin{equation}\label{f213}
+                Q(a,b)=\varphi^{-1}\left(\frac{\varphi(a)+\varphi(b)}2\right),
+                \end{equation}
+                где $\varphi(s)$--- непрерывная, строго монотонная функция, $\varphi^{-1}$--- обратная к ней. Функция же вида (\ref{f213}),
+                являются основными инструментами в исследованиях в микро -- и макроэкономике.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Производственная функция}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                В случае степенной функции $\varphi(a)=a^\beta$, $\varphi(b)=b^\beta$ и $\chi=-1$ семейство (\ref{f213}) относится к классу CES"=функций, имеющих вид
+                \begin{equation}\label{f214}
+                F_\delta(a,b)=A(c_1K^{-\delta}+c_2L^{-\delta})^{-\frac1\delta},
+                \end{equation}
+                где $A>0$, $c_1+c_2=1$, $K$--- фонды, $L$--- трудовые ресурсы, $delta>0$, $c_1$--- фондоемкость продукции, $c_2$--трудоемкость продукции.
+
+                Частными случаями CES являются наиболее используемые типа ПФ: производственная функция В.~Леонтьева:
+                \begin{equation}\label{f215}
+                F_\infty=\min\left(\frac K{c_1},\frac K{c_2}\right),\hspace{3mm}\beta=\infty;
+                \end{equation}
+                функция Кобба"=Дугласа:
+                \begin{equation}\label{f216}
+                F_0(K,L)=AK^{c_1}L^{c_2},\hspace{5mm}\beta=0;
+                \end{equation}
+                линейная функция:
+                \begin{equation}\label{f217}
+                F_1(K,L)=c_1K+c_2L+\delta,\hspace{5mm}\beta=-1.
+                \end{equation}
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Обобщенная функция нелинейного осреднения Маслихова}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Пусть $x=(x_1,\ldots,x_n)$ и $x_i>0, \ \ n=1,2,\ldots$. Рассмотрим функцию
+                \begin{equation}\label{f221}
+                M_{\beta}=\frac1{\chi \beta} \ln \left( \sum\limits^n_{i=1} c_i e^{\chi\beta x_i} \right), %%\eqno{(1.1)}
+                \end{equation}
+                где $\chi=\pm1, \ \ \beta>0, \ \ c_i>0, \ \ \sum\limits^n_{i=1} c_i =1$.
+
+                Функция $M_{\beta}$ удовлетворяет аксиоме аддитивности Маслова
+                \begin{equation}\label{f222}
+                M_\beta(x_1+c,\ x_2+c, \ \ldots , \ x_n+c)=c+M_\beta(x_1,\ldots, x_n),%% \eqno{(1.2)}
+                \end{equation}
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Обобщенная функция нелинейного осреднения Маслихова}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Очевидны следующие свойства:
+                \begin{equation}\label{f223}
+                1. \ M_\beta(\theta)=0, \ M_\beta(x)\geq 0; %%\eqno{(1.3)} \\
+                \end{equation}
+                \begin{equation}\label{f22}
+                2. \ \frac{\partial M_\beta(x)}{\partial x_i}=\frac{c_i e^{\chi
+                \beta x_i}}{\sum\limits_{i=1}^n c_i e^{\chi \beta x_i}} > 0;
+                %%\eqno{(1.4)}
+                \end{equation}
+                \begin{equation}\label{f225}
+                3. \ \frac{\partial^2 M_\beta(x)}{\partial x_i^2}=\frac{\chi \beta
+                c_i e^{\chi \beta ( x_i \ - \sum\limits_{j=1, j\neq i} c_i e^{\chi
+                \beta x_j})}}{\left(\sum\limits_{i=1}^n c_i e^{\chi \beta
+                x_i}\right)^2}.%%% \eqno{(1.5)}
+                \end{equation}
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Обобщенная функция нелинейного осреднения Маслихова}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Как отмечено, свойство аддитивности (\ref{f222}) наиболее близко приближает
+                функции $ M_\beta (x)$ к линейной. Следующее её свойство так же
+                подтверждает этот факт.
+
+                \begin{lem}%%Лемма 1.1
+                Для функции $ M_\beta(x)$ справедливы следующие оценки
+                \begin{equation}\label{f227}
+                \sum\limits^n_{i=1} c_i x_i \leq  M_\beta(x) \leq
+                \sum\limits^n_{i=1}  x_i. %%\eqno{(1.7)}
+                \end{equation}
+                \end{lem}
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Производственная функция Маслихова}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Свойства (\ref{f221})--(\ref{f225}) осредняющей функции $M_\beta$ позволяют
+                применить её в качестве макроэкономической многофакторной
+                производственной функции, положив
+                \begin{equation}\label{f231}
+                F_\beta (x_1, \ \ldots, x_n) = A M_\beta(x_1,\ldots, x_n), %%\eqno{(2.1)},
+                \end{equation}
+                где $A>0$, $x_i$ --- производственные факторы.
+                
+                Но, с точки зрения выполнения классических условий функция $F_\beta(x)$ подходит лишь при $\beta<0$,
+                что соответствует отрицательности вторых производных по $x_i$.
+                В классическом случае положительность вторых производных не рассматривается по причине исследования экономических процессов,
+                развивающихся не быстрее линейных. Линейным же процессам (предельный случай) соответствует линейная производственная функция
+                $F(x)=\sum\limits_{i=1}^n  a_i x_i$.
+                
+                В случае же функции Маслова, учитывая её близость к линейной при любом знаке параметра $\beta$, можно показать,
+                что и при $\beta>0 \ (\chi=1)$ $F_\beta(x)$ является производственной функцией. Эти функции будем называть производственными функциями Маслова (ПФМ).
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Решение задачи оптимизации производства с ПФМ}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                В качестве одного из приложений ПФМ рассмотрим стандартную задачу оптимизации производства и аналогичную ей задачу потребительского выбора с бюджетными ограничениями.
+
+                Математическая модель для этих задач сводится к оптимизации функции $F(x_1,\ldots,x_n)$ (в одном случае это производственная функция, в другом функция потребительского выбора) при условиях
+                \begin{equation}\label{f241}
+                \sum\limits^n_{i=1}p_i x_i =c, %%\eqno{(3.1)}
+                \end{equation}
+                где $p_i>0, \ \ x_i>0$.
+
+                В нашем случае эта задача имеет вид
+                \begin{equation}\label{f242}
+                F_\beta(x)=A M_\beta(x)\rightarrow extr %%%\eqno{(3.2)}
+                \end{equation}
+                при условии (\ref{f241}).
+
+                И здесь важно то, что она решается в явном виде.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Решение задачи оптимизации производства с ПФМ}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Действительно, условия необходимости экстремума функции Лагранжа
+                $$
+                L_\beta (x_1,\ldots,x_n)=A M_\beta(x)-\lambda(c-\sum\limits_{i=1}^n p_i x_i)$$
+                дают систему уравнений
+                \begin{equation}\label{f243}
+                \frac{\partial M_\beta}{\partial x_i}=\lambda p_i, \ i=1,\ldots,n. \ \sum\limits^n_{i=1} p_i x_i =c. %%%\eqno{(3.2)}
+                \end{equation}
+
+                Отсюда, после очевидных операций, получаем соотношения
+                \begin{equation}\label{f244}
+                e^{\chi \beta (x_i-x_{i+1})}=\frac{c_{i+1}p_i}{p_{i+1}c_i}, %%%\eqno{(3.3)}
+                \end{equation}
+
+                Задача оптимизации (\ref{f241})---(\ref{f242}) с производственной функцией Маслова решается в явном виде. В силу близости
+                функций ПФМ к линейным, её можно назвать задачей <<почти-линейного>>
+                программирования, которая решается методом Лагранжа.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Решение задачи оптимизации производства с ПФМ}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Решение системы имеет вид
+                $$x_m=\frac1n\left[\gamma_n+\sum_{m=1}^n(n-m)\gamma_m\right]-\sum_{i=1}^{m-1}\gamma_i=$$
+                \begin{equation}\label{f2413}
+                =\frac1n\left[\gamma_n+\gamma_i-m\sum_{i=1}^{m-1}\gamma_i\right].
+                \end{equation}
+                Кроме того, можно получить решение задачи с помощью рекуррентного соотношения
+                \begin{equation}\label{f2415}
+                x_i=\gamma_i+x_{i+1}.
+                \end{equation}
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Задача оптимизации труда и капитала}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Обозначим: $Y$ -- объем продукции выпущенного фирмой, $K$ -- затраты капитала, $L$ --- затраты труда. В качестве производственной функции фирмы будем рассматривать производственную функцию Маслова
+                \begin{equation}\label{f251}
+                M_\beta(K,L)=\frac1\beta\ln\left(C_1e^{\beta L}+C_2e^{\beta L}\right),
+                \end{equation}
+                $p_1$--- цена единицы капитала, $p_2$--- цена единицы труда.
+                
+                Рассматривается задача оптимизации производства. Математическая модель этой задачи сводится к оптимизации функции Маслова
+                \begin{equation}\label{f252}
+                F_\beta(K,L)=AM_\beta(K,L)\to\max,
+                \end{equation}
+                при условии ограниченности потребительского вывода
+                \begin{equation}\label{f253}
+                p_1K+p_2L=\delta.
+                \end{equation}
+                С нахождением $K_0$ и $L_0$--- точек оптимальности.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Задача оптимизации труда и капитала}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                При $n=2$, $x_1=K$, $x_2=L$ решение задачи (\ref{f252})---(\ref{f253})
+                \begin{equation}\label{f254}
+                K_0=\frac{\gamma p_2+\delta}{p_1+p_2},\hspace{3mm}L_0=\frac{\delta-\gamma p_2}{p_1+p_2},
+                \end{equation}
+                $\gamma=\frac1\beta\ln\frac{C_2p_1}{C_1p_2}$.
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Двойственная задача}
+        \begin{center}
+            \begin{minipage}[h]{0.97\linewidth}
+                Задача двойственной задачи (\ref{f241})---(\ref{f242}) заключается в минимизации функции
+
+                \begin{equation}\label{f261}
+                \sum_{i=1}^{n}p_{i}x_{i}\rightarrow\min,
+                \end{equation}
+                при условии ограничений на ресурсы
+                
+                \begin{equation}\label{f262}
+                M_{\rho}(p_1,...,p_n)=D.
+                \end{equation}
+                Решая эту задачу методом Лагранжа, получаем
+                \begin{equation}\label{f267}
+                    p_m=p_1-\frac{1}{\rho}c_n\frac{c_m x_1}{c_1x_m}.
+                \end{equation}
+                В случае $x_1=K$ и $x_2=L$
+                $$p_1=D+\frac{1}{\beta}c_n \frac{K}{c_1(K+L)}$$
+                $$p_2=D+\frac{1}{\beta}c_n \frac{L}{c_2(K+L)}$$
+            \end{minipage}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}
+        \begin{alertblock}{}
+            \centerline{\large Спасибо за внимание!}
+        \end{alertblock}
+    \end{frame}
+\end{document}
